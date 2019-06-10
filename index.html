@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>主页</title>
+    <style>
+    
+
+    html,body{
+        margin: 0;
+        padding: 0;
+    }
+    
+    .main{
+        width: 100%;
+        padding-top: 5em;
+        text-align: center;
+        max-width: 600px;
+        margin:0 auto;
+    }
+    .item{
+        display: inline-block;
+        width: 90%;
+       /*  max-width: 600px; */
+    }
+     .img-box{
+            
+        }
+    .show_img{
+        width: 50%;
+        margin-top:10px;
+        display: block;
+    }
+    .show_text{
+        display: block;
+        width: 50%;
+        box-sizing: border-box;
+        margin: 1px;
+        font-size:16px;
+        text-align: center;
+        background-color: #fff;
+        /* visibility: hidden;  */
+        opacity: 0.01;
+        position: absolute;
+        left: 0;top: 0;
+    }
+
+    .get_copy{
+        border: none;
+        font-size: 16px;
+        padding: 6px 15px;
+        background: #f60;
+        display: inline-block;
+        margin: 10px auto;
+        border-radius: 16px;
+        color: #fff;
+        
+    }
+    .get_text{
+        background: rgb(0, 161, 255);
+        border: none;
+        font-size: 16px;
+        padding: 6px 15px;
+        margin: 10px 4px;
+        border-radius: 16px;
+        color: rgb(255, 255, 255);
+        text-decoration: none;
+    }
+    fieldset{
+        padding: 0.8em;
+        margin: 0 2px;
+        border: 1px dashed #f54d23;
+        background: #fff;
+    }
+     .text_box{
+        width: 90%;
+        padding: 0.8em;
+        margin: 0 2px;
+        background: #fff;
+        min-height: 30px;
+       
+    }
+    legend{
+        background: #f54d23;
+        border: none;
+        font-size: 1rem;
+        line-height: 20px;
+        color: #fff;
+        padding: 0 4px;
+    }
+
+    </style>
+
+</head>
+<body>
+    <div class="main">
+        
+        <div class="item">
+            <fieldset>
+                <legend id="copy_tip">内容:获取后点复制</legend>
+                <div class="text_box"></div>
+               
+            </fieldset>
+            
+            <textarea class="show_text"  id='copy_text'></textarea>    
+             <button class="get_text" onclick="getXhr()">获取淘口令(有效期1分钟)</button>
+        </div>
+        <div class="item"> <!-- onclick="copyText()" -->
+            <button class="get_copy" onclick="copyText()" id="aasd" data-clipboard-action="cut" data-clipboard-target="#copy_text" >复制淘口令(有效期1分钟)
+            </button>
+           <!--  <img class="show_img" /> -->
+        </div>
+    </div>
+<script type="text/javascript" src="//lib.baomitu.com/clipboard.js/1.6.1/clipboard.min.js"></script>
+    <script type="text/javascript">
+var clipboard = new Clipboard('.get_copy');
+
+clipboard.on('success', function(e) {
+    if(e.text.length > 0){
+        console.log('e.text')
+        document.getElementById('copy_text').value = e.text;
+      // alert('复制成功')
+    }
+  //  e.clearSelection();
+});
+
+clipboard.on('error', function(e) {
+    //alert("复制失败，请长按手动复制")
+
+});
+
+
+        //var img_ = document.querySelector('.show_img');
+        var get_copy_ = document.querySelector('.get_copy');
+        var txt_ = document.querySelector('.show_text');
+        var btn_txt_ = document.querySelector('.get_text');
+         var text_box_ = document.querySelector('.text_box');
+       
+       getXhr();
+        function getXhr(){
+            var xhr = new XMLHttpRequest();
+            xhr.open("get","http://139.196.93.188:9999/GetText");
+            xhr.send();
+            xhr.async = false;
+            xhr.onreadystatechange = function(e){
+                var s = 0;
+                if(true)
+                {
+                    var text = "6666"; //xhr.responseText
+                    txt_.innerHTML = text;
+                    text_box_.innerHTML = text;
+                  
+                }
+               
+            };
+        }
+        function copyText(){
+           
+            var Url2=document.getElementById("copy_text");
+            console.log(Url2.value,"aa")
+            if(Url2.value == ''){
+                alert('请先获取淘口令！');
+            }else{
+                 Url2.select(); // 选择对象
+                document.execCommand("Copy");
+                alert("复制成功");
+            }
+           
+          
+        };
+       
+    </script>
+   
+</body>
+</html>
